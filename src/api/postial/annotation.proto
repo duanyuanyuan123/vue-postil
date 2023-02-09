@@ -1,0 +1,70 @@
+syntax = "proto3";
+package net263.annotation;
+
+option java_package = "net263.annotation.";
+option java_outer_classname = "Annotation";
+
+enum PaintType {
+  pLine			= 0;
+  pArrow		= 1;
+  pRectangle	= 2;
+  pCircle		= 3;
+  pPoint		= 4;
+  pText			= 5;
+  pEraser		= 6;
+}
+
+enum ActionType {
+  kStart		= 0;		//开始
+  kPoint		= 1;		//点
+  kRectangle	= 2;		//矩形（起点和终点）
+  kText			= 3;		//文本
+  kClear		= 4;		//清屏
+  kCancle		= 5;		//撤销
+  kDragging		= 6;		//拖动
+  kEnd			= 7;		//结束
+}
+
+message Color {
+	int32 A 	= 1;		//Alpha通道
+	int32 R 	= 2;		//Red
+	int32 G 	= 3;		//Green
+	int32 B 	= 4;		//Blue
+}
+
+message Start {
+	int32 msg_id 				= 1;	//id，客户端创建，生成时不与其他ID重复即可，风险:不同客户端同时生成相同ID
+	ActionType AType			= 2;	//动作类型（包类型）
+	PaintType Ptype				= 3;	//画笔行为类型
+	int32 point					= 4;	//点线圆像素
+	Color color					= 5;	//颜色
+}
+
+message Position {
+	int32 msg_id				= 1;	//id，客户端创建，生成时不与其他ID重复即可，风险:不同客户端同时生成相同ID
+	ActionType AType			= 2;	//动作类型（包类型）
+	int32 x 					= 3;	//位置X坐标
+	int32 y 					= 4;	//位置Y坐标
+}
+
+message Rect {
+	int32 msg_id				= 1;	//id，客户端创建，生成时不与其他ID重复即可，风险:不同客户端同时生成相同ID
+	ActionType AType			= 2;	//动作类型（包类型）
+	int32 left					= 3;	//左上角X
+	int32 top	 				= 4;	//左上角Y
+	int32 right					= 5;	//右下角X
+	int32 bottom				= 6;	//右下角Y
+}
+
+message Text {
+	int32 msg_id				= 1;	//id，客户端创建，生成时不与其他ID重复即可，风险:不同客户端同时生成相同ID
+	ActionType AType			= 2;	//动作类型（包类型）
+	int32 size					= 3;	//字体大小
+	Color color					= 4;	//字体颜色
+	string text					= 5;	//文本内容
+}
+
+message End {
+	int32 msg_id 				= 1;	//id，客户端创建，生成时不与其他ID重复即可，风险:不同客户端同时生成相同ID
+	ActionType AType			= 2;	//动作类型（包类型）
+}
